@@ -1,0 +1,36 @@
+{% extends 'index.html' %}
+{% block content %}
+{% load tags %}
+{%block title%} Home {% total_posts %} {%endblock title%}
+<div class="posts">
+    <div class="container-fluid">
+        <div class="row">
+            {% if tag %}
+                <h2>Posts tagged with "{{ tag.name }}"</h2>
+            {% endif %}
+            {% for post in posts %}
+                <div class="col-lg-4">
+                    <div class="card">
+                        <img src="{{post.image.url}}" class="card-img-top" alt="post image">
+                        <div class="card-body">
+                            <p class="tags">Tags: 
+                                {% if tag %}
+                                    <h2>Posts tagged with "{{ tag.name }}"</h2>
+                                {% endif %}
+                            </p>
+                            <span class="post_auth">
+                                Published {{post.published}} by {{post.author}}
+                            </span>
+                            <h1 class="card-title"> {{post.title}}</h1>
+                            <p class="card-text">{{post.body|truncatewords:30|linebreaks}}</p>
+                        </div>
+                        <a href="{{ post.get_absolute_url }}"> Read More</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+        
+</div>
+{% include ".././includes/pagination.html" with page=posts %}
+{% endblock content %}
